@@ -27,9 +27,9 @@ def index():
 @app.route('/predict', methods=['POST'])
 def predict():
     chosen_model = request.form['select_model']
-    model_dict = {'AveragePooling2D' : 'static/MLModule/mod1.h5',
-                  'MaxPooling2D'     :   'static/MLModule/mod2.h5',
-                  'GlobalAverage'   :   'static/MLModule/mod3.h5',}
+    model_dict = {'MaxPooling'   :   'static/model/MaxPooling.h5',
+                    'AveragePooling'        : 'static/model/AveragePooling.h5',
+                  'AveragePooling2'     :   'static/model/GlobalAverage.h5',}
     if chosen_model in model_dict:
         model = load_model(model_dict[chosen_model]) 
     else:
@@ -53,7 +53,7 @@ def predict_result(model, run_time, probs, img):
            ('bcc' , ' basal cell carcinoma') :1,
            ('vasc', ' pyogenic granulomas and hemorrhage') :5,
            ('akiec', 'Actinic keratoses and intraepithelial carcinomae') :0,
-           ('df', 'dermatofibroma') :3,}
+           ('df', 'dermatofibroma') :3}
     idx_pred = probs.index(max(probs))
     labels = list(class_list.keys())
     return render_template('/result_select.html', labels=labels, 
